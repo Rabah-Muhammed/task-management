@@ -60,6 +60,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'task_management.urls'
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
