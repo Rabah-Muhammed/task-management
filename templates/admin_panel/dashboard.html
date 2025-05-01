@@ -64,7 +64,7 @@
                             <td>{{ task.due_date|date:"Y-m-d H:i" }}</td>
                             <td>{{ task.updated_at|date:"Y-m-d H:i" }}</td>
                             <td>
-                                <a href="{% url 'admin_panel:task_report' task.pk %}" class="btn-link">View Report</a>
+                                <a href="{% url 'admin_panel:task_report' task.pk %}" style="color: #28a745 !important; text-decoration: none;">View Report</a>
                             </td>
                         </tr>
                     {% endfor %}
