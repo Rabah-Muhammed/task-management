@@ -1,0 +1,60 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>{{ action }} User</h2>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <p class="error">{{ form.username.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <p class="error">{{ form.email.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.role.id_for_label }}">Role</label>
+                {{ form.role }}
+                {% if form.role.errors %}
+                    <p class="error">{{ form.role.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.managed_by.id_for_label }}">Managed By</label>
+                {{ form.managed_by }}
+                {% if form.managed_by.errors %}
+                    <p class="error">{{ form.managed_by.errors }}</p>
+                {% endif %}
+                <p class="help-text">Select an Admin or SuperAdmin to manage this user (optional).</p>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <p class="error">{{ form.password.errors }}</p>
+                {% endif %}
+                {% if action == 'Edit' %}
+                    <p class="help-text">Leave blank to keep the existing password.</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                    <p class="error">{{ form.confirm_password.errors }}</p>
+                {% endif %}
+                {% if action == 'Edit' %}
+                    <p class="help-text">Leave blank to keep the existing password.</p>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+{% endblock %}

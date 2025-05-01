@@ -1,0 +1,77 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <h2>Admin Dashboard</h2>
+    
+    <!-- Summary Cards -->
+    <div class="card-grid">
+        <div class="card total-tasks">
+            <h3>Total Tasks</h3>
+            <p>{{ total_tasks }}</p>
+        </div>
+        <div class="card pending-tasks">
+            <h3>Pending Tasks</h3>
+            <p>{{ pending_tasks }}</p>
+        </div>
+        <div class="card in-progress-tasks">
+            <h3>In Progress Tasks</h3>
+            <p>{{ in_progress_tasks }}</p>
+        </div>
+        <div class="card completed-tasks">
+            <h3>Completed Tasks</h3>
+            <p>{{ completed_tasks }}</p>
+        </div>
+    </div>
+    
+    <!-- User Summary -->
+    <div class="user-summary">
+        <h3>User Summary</h3>
+        <div class="user-summary-grid">
+            <div>
+                <p>Total Users</p>
+                <p>{{ total_users }}</p>
+            </div>
+            <div>
+                <p>Admins</p>
+                <p>{{ admin_count }}</p>
+            </div>
+            <div>
+                <p>Users</p>
+                <p>{{ user_count }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Completed Tasks -->
+    <div class="card">
+        <h3>Recent Completed Tasks</h3>
+        {% if recent_completed_tasks %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Assigned To</th>
+                        <th>Due Date</th>
+                        <th>Updated At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in recent_completed_tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.assigned_to.username }}</td>
+                            <td>{{ task.due_date|date:"Y-m-d H:i" }}</td>
+                            <td>{{ task.updated_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <a href="{% url 'admin_panel:task_report' task.pk %}" class="btn-link">View Report</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No completed tasks found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

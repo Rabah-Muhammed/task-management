@@ -1,0 +1,15 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h2>Logging Out</h2>
+        <p>You have been logged out.</p>
+        <script>
+            {% if logout %}
+                window.location.href = "{% url 'admin_panel:login' %}";
+            {% else %}
+                console.log("Logout page loaded without logout flag.");
+            {% endif %}
+        </script>
+    </div>
+{% endblock %}

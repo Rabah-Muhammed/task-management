@@ -1,0 +1,51 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>{{ action }} Task</h2>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <p class="error">{{ form.title.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <p class="error">{{ form.description.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.assigned_to.id_for_label }}">Assigned To</label>
+                {{ form.assigned_to }}
+                {% if form.assigned_to.errors %}
+                    <p class="error">{{ form.assigned_to.errors }}</p>
+                {% endif %}
+                {% if user.role == 'SuperAdmin' %}
+                    <p class="help-text">Only users with the User role can be assigned tasks.</p>
+                {% elif user.role == 'Admin' %}
+                    <p class="help-text">Only users managed by you can be assigned tasks.</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+                {{ form.due_date }}
+                {% if form.due_date.errors %}
+                    <p class="error">{{ form.due_date.errors }}</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.status.id_for_label }}">Status</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <p class="error">{{ form.status.errors }}</p>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+{% endblock %}

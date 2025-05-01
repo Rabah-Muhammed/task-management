@@ -1,0 +1,15 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h2>Task Report: {{ task.title }}</h2>
+        <p class="help-text">Reports are only available for tasks with 'Completed' status.</p>
+        <div class="report-details">
+            <p><strong>Assigned To:</strong> {{ task.assigned_to.username }}</p>
+            <p><strong>Status:</strong> {{ task.status }}</p>
+            <p><strong>Completion Report:</strong> {{ task.completion_report|default:"No report provided." }}</p>
+            <p><strong>Worked Hours:</strong> {{ task.worked_hours }}</p>
+        </div>
+        <a href="{% url 'admin_panel:task_list' %}" class="btn btn-link">Back to Tasks</a>
+    </div>
+{% endblock %}

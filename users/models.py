@@ -8,6 +8,15 @@ class CustomUser(AbstractUser):
         ('User', 'User'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='User')
+    managed_by = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'role__in': ['Admin', 'SuperAdmin']},
+        related_name='managed_users'
+    )
 
+    
     def __str__(self):
         return self.username

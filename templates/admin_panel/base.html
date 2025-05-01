@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=3">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{% url 'admin_panel:dashboard' %}" style="text-decoration: none;">
+                <h1 class="nav-title">Admin Panel</h1>
+              </a>
+              
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }} ({{ user.role }})</span>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated and user.role in 'Admin,SuperAdmin' %}
+            <div class="sub-nav">
+                <a href="{% url 'admin_panel:dashboard' %}">Dashboard</a>
+                <a href="{% url 'admin_panel:task_list' %}">Manage Tasks</a>
+                {% if user.role == 'SuperAdmin' %}
+                    <a href="{% url 'admin_panel:user_list' %}">Manage Users</a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        // Check if user is authenticated and not on the login page
+        window.onload = function() {
+            {% if not user.is_authenticated %}
+                if (window.location.pathname !== "{% url 'login' %}") {
+                    window.location.href = "{% url 'login' %}";
+                }
+            {% endif %}
+
+            // Handle floating labels
+            document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(input => {
+                // Check initial value
+                if (input.value) {
+                    input.closest('.form-group').classList.add('has-value');
+                }
+                // Update on input/change
+                input.addEventListener('input', () => {
+                    if (input.value) {
+                        input.closest('.form-group').classList.add('has-value');
+                    } else {
+                        input.closest('.form-group').classList.remove('has-value');
+                    }
+                });
+                input.addEventListener('change', () => {
+                    if (input.value) {
+                        input.closest('.form-group').classList.add('has-value');
+                    } else {
+                        input.closest('.form-group').classList.remove('has-value');
+                    }
+                });
+            });
+        };
+    </script>
+</body>
+</html>

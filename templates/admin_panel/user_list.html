@@ -1,0 +1,36 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block content %}
+    <h2>Manage Users</h2>
+    <a href="{% url 'admin_panel:user_create' %}" class="btn btn-success" style="margin-bottom: 24px;">Create User</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Managed By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.managed_by.username|default:"None" }}</td>
+                    <td>
+                        <a href="{% url 'admin_panel:user_edit' user.pk %}" style="color: #007bff !important; text-decoration: none;">Edit</a> |
+                        <a href="{% url 'admin_panel:user_delete' user.pk %}" style="color: #dc3545 !important; text-decoration: none;">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
